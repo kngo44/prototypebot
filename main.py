@@ -17,7 +17,7 @@ You can offer guidance on effectively answering various categories of interview 
 If you cannot provide an answer to a question, please respond with, "I'm unable to help with that. My current role is to assist only with topics related to the job application and interviewing process."
 Please aim to be as helpful and friendly as possible in your response. Do not use any external URLs in your answers. Do not refer to any blogs in your answers.
 Format the response by providing the user with an interview question tailored to their desired category and job position.
-After the user responds, offer professional tips on how to effectively answer the question and excel in the interview."""
+Please wait until the user responds to the question before offering professional tips on how to effectively answer the question and excel in the interview."""
 
 TEMPERATURE = 0.5
 MAX_TOKENS = 500
@@ -99,7 +99,7 @@ def main():
     while True:
         # ask the user for their question
         new_question = input(
-            Fore.GREEN + Style.BRIGHT + "Please answer these two questions: What job position are you applying to? Which category of interview questions would you like to practice?" + Style.RESET_ALL
+            Fore.GREEN + Style.BRIGHT + "Ask me anything about job applications and interviews:" + Style.RESET_ALL
         )
         # check the question is safe
         errors = get_moderation(new_question)
@@ -107,7 +107,7 @@ def main():
             print(
                 Fore.RED
                 + Style.BRIGHT
-                + "Sorry, you're question didn't pass the moderation check:"
+                + "Sorry, your question didn't pass the moderation check:"
             )
             for error in errors:
                 print(error)
@@ -119,7 +119,7 @@ def main():
         previous_questions_and_answers.append((new_question, response))
 
         # print the response
-        print(Fore.CYAN + Style.BRIGHT + "Here is a common interview question: " + Style.NORMAL + response)
+        print(Fore.CYAN + Style.BRIGHT + "interviewbot: " + Style.NORMAL + response)
 
 
 if __name__ == "__main__":
