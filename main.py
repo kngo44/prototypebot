@@ -1,13 +1,15 @@
 import os
 from dotenv import load_dotenv
 from colorama import Fore, Back, Style
-import openai
+from openai import OpenAI
 
 # load values from the .env file if it exists
 load_dotenv()
 
 # configure OpenAI
-openai.api_key = os.getenv("OPENAI_API_KEY")
+api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=api_key)
+# client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 INSTRUCTIONS = """You are an AI assistant who is an expert recruiter and interviewer in the United States who works with hyper-competitive companies to hire top talent. 
 You have been assessing applicants' compatibility for various roles for 10 years, with an impressive track record of matching the right job seekers with the right jobs.
@@ -47,7 +49,7 @@ def get_response(instructions, previous_questions_and_answers, new_question):
     # add the new question
     messages.append({ "role": "user", "content": new_question })
 
-    completion = openai.ChatCompletion.create(
+    completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=messages,
         temperature=TEMPERATURE,
@@ -56,7 +58,7 @@ def get_response(instructions, previous_questions_and_answers, new_question):
         frequency_penalty=FREQUENCY_PENALTY,
         presence_penalty=PRESENCE_PENALTY,
     )
-    return completion.choices[0].message['content']
+    return completion.choices[0].message.content
 
 
 def get_moderation(question):
@@ -78,9 +80,9 @@ def get_moderation(question):
         "violence": "Content that promotes or glorifies violence or celebrates the suffering or humiliation of others.",
         "violence/graphic": "Violent content that depicts death, violence, or serious physical injury in extreme graphic detail.",
     }
-    response = openai.Moderation.create(input=question)
-    categories = response['results'][0]['categories']
-    if response['results'][0]['flagged']:
+    response = client.moderations.create(input=question)
+    categories = response.results[0].categories
+    if response.results[0].flagged:
         # Get the categories that are flagged and generate a message
         result = [
             error
@@ -89,17 +91,6 @@ def get_moderation(question):
         ]
         return result
     return None
-    # response = openai.Moderation.create(input=question)
-    # if response.results[0].flagged:
-    #     # get the categories that are flagged and generate a message
-    #     result = [
-    #         error
-    #         for category, error in errors.items()
-    #         if response.results[0].categories[category]
-    #     ]
-    #     return result
-    # return None
-
 
 def main():
     os.system("cls" if os.name == "nt" else "clear")
