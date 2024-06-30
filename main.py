@@ -94,12 +94,15 @@ def get_moderation(question):
 
 def main():
     os.system("cls" if os.name == "nt" else "clear")
+
+    print(Fore.GREEN + Style.BRIGHT + "What job position are you applying to? Which category of interview questions would you like to practice?")
+
     # keep track of previous questions and answers
     previous_questions_and_answers = []
     while True:
         # ask the user for their question
         new_question = input(
-            Fore.GREEN + Style.BRIGHT + "Ask me anything about job applications and interviews:" + Style.RESET_ALL
+            Fore.GREEN + Style.BRIGHT + "You: " + Style.RESET_ALL
         )
         # check the question is safe
         errors = get_moderation(new_question)
