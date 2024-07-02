@@ -19,7 +19,7 @@ Please aim to be as helpful and friendly as possible in your response. Do not us
 Format the response by providing the user with an interview question tailored to their desired category and job position.
 Please wait until the user responds to the question before offering professional tips on how to effectively answer the question and excel in the interview."""
 
-TEMPERATURE = 0.5 # Between 0 - 2. Higher values like 0.8 will make you output more random.
+TEMPERATURE = 0.7 # Between 0 - 2. Higher values like 0.8 will make you output more random.
 MAX_TOKENS = 500
 FREQUENCY_PENALTY = 0 # Between -2.0 - 2.0. Positive values penalize new tokens based on their existing frequency. Decreases the likelihood of repeating the same line verbatim.
 PRESENCE_PENALTY = 0.6 # Between -2.0 - 2.0. Positive values penalize new tokens based on whether they appear in the text so far.
