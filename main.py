@@ -6,11 +6,13 @@ from langchain_openai import OpenAIEmbeddings
 from langchain.chains import LLMChain
 from dotenv import load_dotenv
 
+load_dotenv()
+
 # load the data
 loader = CSVLoader(file_path="interview_questions.csv")
 documents = loader.load()
 
-print(documents[0])
+print(len(documents))
 
 embeddings = OpenAIEmbeddings()
 db = FAISS.from_documents(documents, embeddings)
